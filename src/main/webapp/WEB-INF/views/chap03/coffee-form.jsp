@@ -84,7 +84,7 @@
             console.log(coffeePrice[e.target.value]);
             let price = document.querySelector(".price-value");
             price.textContent = coffeePrice[e.target.value];
-
+            // location.href = "/coffee/choice";
             const $priceTag = document.getElementById("price-tag");
             $priceTag.value = coffeePrice[e.target.value];
             

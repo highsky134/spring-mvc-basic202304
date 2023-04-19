@@ -35,4 +35,10 @@ public class CoffeeController {
 
         return "chap03/coffee-result";
     }
+
+    @GetMapping("/choice")
+    public String choice() {
+        System.out.println("여기 옴?");
+        return "chap03/coffee-form";
+    }
 }
