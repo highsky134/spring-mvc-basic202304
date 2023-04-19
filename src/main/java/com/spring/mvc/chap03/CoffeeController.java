@@ -25,20 +25,35 @@ public class CoffeeController {
         @request - /coffee/result : POST
         @response - /chap03/coffee-result.jsp
      */
+//    @PostMapping("/result")
+//    public String coffeeResult(String menu, @RequestParam(defaultValue = "3000") int price, Model model) {
+//        System.out.println("menu = " + menu);
+//        System.out.println("price = " + price);
+//
+//        model.addAttribute("menu", menu);
+//        model.addAttribute("p",price);
+//
+//        return "chap03/coffee-result";
+//    }
+
+//    @GetMapping("/choice")
+//    public String choice() {
+//        System.out.println("여기 옴?");
+//        return "chap03/coffee-form";
+//    }
+
     @PostMapping("/result")
-    public String coffeeResult(String menu, @RequestParam(defaultValue = "3000") int price, Model model) {
+    public String coffeeResult(String menu, @RequestParam(defaultValue = "3000") int price, int sale, Model model) {
         System.out.println("menu = " + menu);
         System.out.println("price = " + price);
+        System.out.println("sale = " + sale);
+
+        int i = (int)(price * (sale / 100.0));
 
         model.addAttribute("menu", menu);
-        model.addAttribute("p",price);
+        model.addAttribute("p",price-i);
+        model.addAttribute("sale",sale);
 
         return "chap03/coffee-result";
-    }
-
-    @GetMapping("/choice")
-    public String choice() {
-        System.out.println("여기 옴?");
-        return "chap03/coffee-form";
     }
 }

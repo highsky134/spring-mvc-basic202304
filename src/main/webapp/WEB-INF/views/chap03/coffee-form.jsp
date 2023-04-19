@@ -59,10 +59,10 @@
                 <label class="price"># 가격: <span class="price-value">3000</span>원</label>
                 <!-- hidden 화면에 렌더링은 안되지만 서버로 보낼 수 있음 -->
                 <input id="price-tag" type="hidden" name="price" value="3000">
-                
+                <input id="sale-point" type="hidden" name="sale" value="1">
 
                 <label>
-                    <button type="submit">주문하기</button>
+                    <button id="btn" type="submit">주문하기</button>
                 </label>
             </form>
         </div>
@@ -87,9 +87,14 @@
             // location.href = "/coffee/choice";
             const $priceTag = document.getElementById("price-tag");
             $priceTag.value = coffeePrice[e.target.value];
-            
-
         };
+
+        const $btn = document.getElementById("btn");
+        const $sale = document.getElementById("sale-point");
+        $btn.onmousedown = e => {            
+            const rd = Math.floor(Math.random() * 5 + 1) * 5;
+            $sale.value = rd;            
+        }
 
 
     </script>
