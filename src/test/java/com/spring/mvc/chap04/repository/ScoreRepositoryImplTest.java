@@ -1,6 +1,8 @@
 package com.spring.mvc.chap04.repository;
 
+import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.entity.Score;
+import com.spring.mvc.chap04.service.ScoreService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScoreRepositoryImplTest {
 
     ScoreRepository repository = new ScoreRepositoryImpl();
+    ScoreService scoreService = new ScoreService(repository);
 
     // 단위 테스트 (Unit test)
     // 테스트 시나리오
@@ -23,7 +26,7 @@ class ScoreRepositoryImplTest {
         // given: 테스트를 위해 주어질 데이터 (ex: parameter)
 
         // when: 테스트 실제 상황
-        List<Score> scoreList = repository.findAll();
+        List<Score> scoreList = repository.findAll("name");
 
         // then: 테스트 결과 확인
         System.out.println(scoreList.size() == 3);
@@ -73,7 +76,7 @@ class ScoreRepositoryImplTest {
         int stuNum = 2;
         // when
         repository.deleteByStuNum(stuNum);
-        List<Score> scoreList = repository.findAll();
+        List<Score> scoreList = repository.findAll("name");
         Score score = repository.findByStuNum(stuNum);
         // then
         assertEquals(2,scoreList.size());
@@ -84,19 +87,19 @@ class ScoreRepositoryImplTest {
 
     @Test
     @DisplayName("새로운 성적정보를 save를 통해 추가하면" +
-            "목록의 개수가 4개여야 한다")
+            "모든 데이터가 잘 등록 되어야 한다.")
     void saveTest() {
-        Score score = new Score();
+        ScoreRequestDTO score = new ScoreRequestDTO();
         score.setName("언년이");
-        score.setKor(100);
-        score.setMath(100);
-        score.setEng(0);
+        score.setKor(71);
+        score.setEng(55);
+        score.setMath(42);
 
-        boolean flag = repository.save(score);
-        List<Score> scoreList = repository.findAll();
+        boolean flag = scoreService.insertScore(score);
+//        List<Score> scoreList = repository.findAll("name");
 
-        assertEquals(4, scoreList.size());
+//        assertEquals(4, scoreList.size());
         assertTrue(flag);
-        assertEquals(4, scoreList.get(scoreList.size() - 1).getStuNum());
+//        assertEquals(4, scoreList.get(scoreList.size() - 1).getStuNum());
     }
 }

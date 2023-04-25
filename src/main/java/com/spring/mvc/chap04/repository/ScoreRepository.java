@@ -1,5 +1,6 @@
 package com.spring.mvc.chap04.repository;
 
+import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
 import com.spring.mvc.chap04.dto.ScoreUpdateDTO;
 import com.spring.mvc.chap04.entity.Score;
 
@@ -14,7 +15,7 @@ public interface ScoreRepository {
     // 성적 정보 전체 목록 조회
 //    List<Score> findAll(Comparator<Score> comparator);
 
-    default List<Score> findAll(String sort) { // 선택적으로 오버라이딩 할 수 있음
+    default List<ScoreListResponseDTO> findAll(String sort) { // 선택적으로 오버라이딩 할 수 있음
         return null;
     } // 정렬 목록 조회
 

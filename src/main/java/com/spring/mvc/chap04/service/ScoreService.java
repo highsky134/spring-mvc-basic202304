@@ -28,11 +28,28 @@ public class ScoreService {
      */
     public List<ScoreListResponseDTO> getList(String sort) {
 
+        String type;
+        switch (sort) {
+            case "avg":
+                type = "average";
+                break;
+            case "name":
+                type = "name";
+                break;
+            default:
+                type = "stu_num";
+        }
+
+        return scoreRepository.findAll(type);
+//                .stream()
+//                .map(ScoreListResponseDTO::new)
+//                .collect(Collectors.toList());
+
         // scoreList에서 원하는 정보만 추출하고 이름은 마스킹해서
         // 다시 DTO리스트로 변환해줘야 한다.
-        return scoreRepository.findAll(sort).stream()
-                .map(ScoreListResponseDTO::new)
-                .collect(Collectors.toList());
+//        return scoreRepository.findAll(sort).stream()
+//                .map(ScoreListResponseDTO::new)
+//                .collect(Collectors.toList());
     }
 
     // 등록 중간처리

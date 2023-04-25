@@ -1,5 +1,6 @@
 package com.spring.mvc.chap04.repository;
 
+import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreUpdateDTO;
 import com.spring.mvc.chap04.entity.Grade;
@@ -7,6 +8,7 @@ import com.spring.mvc.chap04.entity.Score;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,94 @@ import static java.util.Comparator.*;
 @Repository // 스프링 빈 등록 : 객체의 생성의 제어권을 스프링에게 위임(IoC)
 public class ScoreRepositoryImpl implements ScoreRepository{
 
-    // key : 학번, value : 성적정보Score
+    private String url = "jdbc:mariadb://localhost:3306/spring";
+    private String username = "root";
+    private String password = "1234";
+
+    public ScoreRepositoryImpl() {
+        // 1. 드라이버 클래스를 로딩 (mariadb 커넥터 로딩)
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean save(Score score) {
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+
+            conn.setAutoCommit(false);
+            String sql = "INSERT INTO scores (name, kor, eng, math, total, average, grade) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, score.getName());
+            pstmt.setInt(2,score.getKor());
+            pstmt.setInt(3,score.getEng());
+            pstmt.setInt(4,score.getMath());
+            pstmt.setInt(5,score.getTotal());
+            pstmt.setDouble(6,score.getAvg());
+            pstmt.setString(7, score.getGrade().name());
+            int result = pstmt.executeUpdate();
+
+            if (result == 1) {
+                conn.commit();
+                return true;
+            }
+            else conn.rollback();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public List<ScoreListResponseDTO> findAll(String sort) {
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+
+            String sql = "SELECT * FROM scores order by ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, sort);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+//                ScoreListResponseDTO dto = new ScoreListResponseDTO();
+                // 생성자로 객체를 만들어서 그걸 리턴 해주는게 맞을까?
+                // 그냥 Score를 사용하는게 맞을까?
+
+//                dto.setName(rs.getString("name"));
+//                s.
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean deleteByStuNum(int stuNum) {
+        return false;
+    }
+
+    @Override
+    public Score findByStuNum(int stuNum) {
+        return null;
+    }
+
+    @Override
+    public Score modify(ScoreUpdateDTO dto) {
+        return null;
+    }
+
+
+    // 기존
+    /*// key : 학번, value : 성적정보Score
     private static final Map<Integer, Score> scoreMap;
 
     // 학번에 사용할 일련번호
@@ -97,7 +186,7 @@ public class ScoreRepositoryImpl implements ScoreRepository{
         score.setMath(dto.getMath());
         score.modifyScore();
         return score;
-    }
+    }*/
 
 
 }
