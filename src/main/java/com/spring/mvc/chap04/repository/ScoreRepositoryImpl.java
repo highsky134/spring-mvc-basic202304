@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static com.spring.mvc.chap04.entity.Grade.*;
 import static java.util.Comparator.*;
 
-@Repository // 스프링 빈 등록 : 객체의 생성의 제어권을 스프링에게 위임(IoC)
+@Repository("memory") // 스프링 빈 등록 : 객체의 생성의 제어권을 스프링에게 위임(IoC)
 public class ScoreRepositoryImpl implements ScoreRepository{
 
     private String url = "jdbc:mariadb://localhost:3306/spring";
@@ -62,10 +62,21 @@ public class ScoreRepositoryImpl implements ScoreRepository{
     }
 
     @Override
-    public List<ScoreListResponseDTO> findAll(String sort) {
+    public List<Score> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Score> findAll(String sort) {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
 
-            String sql = "SELECT * FROM scores order by ?";
+            List<Score> list = new ArrayList<>();
+
+            String sql = "SELECT * FROM scores";
+            if (sort.equals("num")) sql += " order by stu_num";
+            else if (sort.equals("name")) sql += " order by name";
+            else sql += " order by average desc";
+
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, sort);
@@ -73,18 +84,27 @@ public class ScoreRepositoryImpl implements ScoreRepository{
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-//                ScoreListResponseDTO dto = new ScoreListResponseDTO();
                 // 생성자로 객체를 만들어서 그걸 리턴 해주는게 맞을까?
                 // 그냥 Score를 사용하는게 맞을까?
 
-//                dto.setName(rs.getString("name"));
-//                s.
+                String name = rs.getString("name");
+                int kor = rs.getInt("kor");
+                int eng = rs.getInt("eng");
+                int math = rs.getInt("math");
+                ScoreRequestDTO requestDTO = new ScoreRequestDTO(name, kor, eng, math);
+
+                Score s = new Score(requestDTO);
+                s.setStuNum(rs.getInt("stu_num"));
+
+                ScoreListResponseDTO dto = new ScoreListResponseDTO(s);
+                System.out.println("dto = " + dto);
+//                list.add(dto);
             }
+            return list;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 

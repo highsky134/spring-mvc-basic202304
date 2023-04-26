@@ -3,6 +3,9 @@ package com.spring.mvc.chap04.entity;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import lombok.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 @Setter @Getter
 @ToString @EqualsAndHashCode
 @NoArgsConstructor @AllArgsConstructor
@@ -23,6 +26,17 @@ public class Score {
         this.math = dto.getMath();
         calcTotalAndAvg(); // 총점, 평균 계싼
         calcGrade(); // 학점 계산
+    }
+
+    public Score(ResultSet rs) throws SQLException {
+        this.stuNum = rs.getInt("stu_num");
+        this.name = rs.getString("name");
+        this.kor = rs.getInt("kor");
+        this.eng = rs.getInt("eng");
+        this.math = rs.getInt("math");
+        this.total = rs.getInt("total");
+        this.avg = rs.getDouble("average");
+        this.grade = Grade.valueOf(rs.getString("grade"));
     }
 
     private void calcGrade() {

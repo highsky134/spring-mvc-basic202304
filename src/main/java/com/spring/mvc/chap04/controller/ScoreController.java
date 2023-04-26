@@ -53,9 +53,9 @@ public class ScoreController {
     // 1. 성적등록화면 띄우기 + 정보목록조회
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "num") String sort, Model model) {
-        System.out.println("/score/list : GET!");
+        System.out.println("/score/list : GET!" + sort);
 
-        model.addAttribute("s",scoreService.getList(sort));
+        model.addAttribute("sList",scoreService.getList(sort));
 
         return "chap04/score-list";
     }

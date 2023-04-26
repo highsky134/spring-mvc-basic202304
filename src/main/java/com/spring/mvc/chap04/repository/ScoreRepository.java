@@ -13,9 +13,9 @@ import java.util.List;
 public interface ScoreRepository {
 
     // 성적 정보 전체 목록 조회
-//    List<Score> findAll(Comparator<Score> comparator);
+    List<Score> findAll();
 
-    default List<ScoreListResponseDTO> findAll(String sort) { // 선택적으로 오버라이딩 할 수 있음
+    default List<Score> findAll(String sort) { // 선택적으로 오버라이딩 할 수 있음
         return null;
     } // 정렬 목록 조회
 
