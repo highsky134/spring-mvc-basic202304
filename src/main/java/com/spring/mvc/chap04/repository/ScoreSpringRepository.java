@@ -17,12 +17,15 @@ public class ScoreSpringRepository implements ScoreRepository {
 
     @Override
     public List<Score> findAll() {
-        return null;
+        return findAll("num");
     }
 
     @Override
     public List<Score> findAll(String sort) {
         String sql = "select * from scores";
+        if (sort.equals("num")) sql += " order by stu_num";
+        else if (sort.equals("name")) sql += " order by name";
+        else sql += " order by average desc";
         return jdbcTemplate.query(sql, (rs, n) -> new Score(rs));
     }
 
@@ -49,8 +52,11 @@ public class ScoreSpringRepository implements ScoreRepository {
     }
 
     @Override
-    public Score modify(ScoreUpdateDTO dto) {
-//        String sql = "update scores set "
-        return null;
+    public int modify(ScoreUpdateDTO dto) {
+        Score s = new Score(dto);
+        String sql = "update scores set kor=?, eng=?, math=?, total=?, average=?, grade=? where stu_num=?";
+
+        int result = jdbcTemplate.update(sql, s.getKor(), s.getEng(), s.getMath(), s.getTotal(), s.getAvg(), s.getGrade().name(), s.getStuNum());
+        return result;
     }
 }

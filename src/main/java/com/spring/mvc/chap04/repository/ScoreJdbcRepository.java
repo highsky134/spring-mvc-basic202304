@@ -176,7 +176,7 @@ public class ScoreJdbcRepository implements ScoreRepository{
     }
 
     @Override
-    public Score modify(ScoreUpdateDTO dto) {
-        return null;
+    public int modify(ScoreUpdateDTO dto) {
+        return 0;
     }
 }

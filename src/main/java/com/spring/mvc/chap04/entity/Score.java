@@ -1,6 +1,7 @@
 package com.spring.mvc.chap04.entity;
 
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
+import com.spring.mvc.chap04.dto.ScoreUpdateDTO;
 import lombok.*;
 
 import java.sql.ResultSet;
@@ -21,6 +22,10 @@ public class Score {
 
     public Score(ScoreRequestDTO dto) {
         this.name = dto.getName();
+        changeScore(dto);
+    }
+
+    private void changeScore(ScoreRequestDTO dto) {
         this.kor = dto.getKor();
         this.eng = dto.getEng();
         this.math = dto.getMath();
@@ -37,6 +42,15 @@ public class Score {
         this.total = rs.getInt("total");
         this.avg = rs.getDouble("average");
         this.grade = Grade.valueOf(rs.getString("grade"));
+    }
+
+    public Score(ScoreUpdateDTO dto) {
+        this.stuNum = dto.getStuNum();
+        this.kor = dto.getKor();
+        this.eng = dto.getEng();
+        this.math = dto.getMath();
+        calcTotalAndAvg(); // 총점, 평균 계싼
+        calcGrade(); // 학점 계산
     }
 
     private void calcGrade() {

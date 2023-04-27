@@ -28,6 +28,6 @@ public interface ScoreRepository {
     // 성적 정보 개별 조회
     Score findByStuNum(int stuNum);
 
-    Score modify(ScoreUpdateDTO dto);
+    int modify(ScoreUpdateDTO dto);
 
 }

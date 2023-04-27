@@ -4,6 +4,7 @@ import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreUpdateDTO;
 import com.spring.mvc.chap04.entity.Score;
+import com.spring.mvc.chap04.repository.ScoreMapper;
 import com.spring.mvc.chap04.repository.ScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,11 +19,12 @@ import java.util.stream.Collectors;
 //@RequiredArgsConstructor
 public class ScoreService {
 
-    private final ScoreRepository scoreRepository;
+
+    private final ScoreMapper mapper;
 
     @Autowired
-    public ScoreService(@Qualifier("spring")ScoreRepository scoreRepository) {
-        this.scoreRepository = scoreRepository;
+    public ScoreService(ScoreMapper mapper) {
+        this.mapper = mapper;
     }
 
 
@@ -34,7 +36,7 @@ public class ScoreService {
         컨트롤러는 일부만 받았으면 좋겠다.
      */
     public List<ScoreListResponseDTO> getList(String sort) {
-        return scoreRepository.findAll(sort).stream()
+        return mapper.findAll(sort).stream()
                 .map(ScoreListResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -54,20 +56,21 @@ public class ScoreService {
     public boolean insertScore(ScoreRequestDTO dto) {
         // dto(ScoreDTO)를 entity(Score)로 변환해야함
         // save 명령
-        return scoreRepository.save(new Score(dto));
+        return mapper.save(new Score(dto));
     }
 
     // 삭제 중간처리
     public boolean delete(int stuNum) {
-        return scoreRepository.deleteByStuNum(stuNum);
+        return mapper.deleteByStuNum(stuNum);
     }
 
     // 상세조회, 수정화면조회 중간처리
     public Score retrieve(int stuNum) {
-        return scoreRepository.findByStuNum(stuNum);
+        return mapper.findByStuNum(stuNum);
     }
 
     public void modify(ScoreUpdateDTO dto) {
-        scoreRepository.modify(dto);
+        Score s = new Score(dto);
+        mapper.modify(s);
     }
 }

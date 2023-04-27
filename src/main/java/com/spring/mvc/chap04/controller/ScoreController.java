@@ -63,7 +63,7 @@ public class ScoreController {
     // 2. 성적 정보 등록 처리 요청
     @PostMapping("/register")
     public String register(ScoreRequestDTO dto) {
-        System.out.println("/score/register : POST! - " + dto);
+        System.out.println("/score/register : POST!");
         // 스프링은 dto 객체를 new할때 기본생성자와 세터를 사용해서 만든다
 
         // 입력데이터(쿼리스트링) 읽기
@@ -109,7 +109,7 @@ public class ScoreController {
     @PostMapping("/modify")
     public String modify(ScoreUpdateDTO dto) {
 
-        System.out.println("/score/modify : POST!" + dto);
+        System.out.println("/score/modify : POST!");
         scoreService.modify(dto);
 
         return "redirect:/score/detail?stuNum=" + dto.getStuNum();
