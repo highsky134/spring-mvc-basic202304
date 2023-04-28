@@ -39,7 +39,7 @@
                 <li># 영어: <span class="score">${s.eng}점</span></li>
                 <li># 수학: <span class="score">${s.math}점</span></li>
                 <li># 총점: ${s.total}점</li>
-                <li># 평균: ${s.avg}점</li>
+                <li># 평균: ${s.average}점</li>
                 <li># 등급: ${s.grade}점</li>
             </ul>
         </div>

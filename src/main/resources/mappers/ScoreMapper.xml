@@ -6,15 +6,15 @@
 <mapper namespace="com.spring.mvc.chap04.repository.ScoreMapper">
     <insert id="save">
         INSERT INTO scores (name, kor, eng, math, total, average, grade)
-        VALUES (#{name},#{kor},#{eng},#{math},#{total},#{avg},#{grade})
+        VALUES (#{name},#{kor},#{eng},#{math},#{total},#{average},#{grade})
     </insert>
 
-    <resultMap id="score" type="com.spring.mvc.chap04.entity.Score">
-        <result property="stuNum" column="stu_num"/>
-        <result property="avg" column="average"/>
-    </resultMap>
+<!--    <resultMap id="score" type="com.spring.mvc.chap04.entity.Score">-->
+<!--        <result property="stuNum" column="stu_num"/>-->
+<!--        <result property="avg" column="average"/>-->
+<!--    </resultMap>-->
 
-    <select id="findAll" resultMap="score">
+    <select id="findAll" resultType="score">
         SELECT * FROM scores
         <choose>
             <when test="sort == 'stu_num'">
@@ -29,7 +29,7 @@
         </choose>
     </select>
 
-    <select id="findByStuNum" resultMap="score">
+    <select id="findByStuNum" resultType="score">
         SELECT * FROM scores WHERE stu_num = #{stuNum}
     </select>
 
@@ -39,7 +39,7 @@
 
     <update id="modify">
         UPDATE scores SET kor = #{kor}, eng = #{eng}, math = #{math}
-        , total = #{total}, average = #{avg}, grade = #{grade}
+        , total = #{total}, average = #{average}, grade = #{grade}
         WHERE stu_num = #{stuNum}
     </update>
 </mapper>

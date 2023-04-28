@@ -62,7 +62,11 @@
       <div class="post-content">
          ${b.content}
       </div>
-      <div><button type="button" onclick="history.back()">뒤로가기</button></div>
+      <div>
+         <button type="button" onclick="window.location.href = '/board/list'">뒤로가기</button>
+         <button type="button" onclick="window.location.href = '/board/modify'">수정하기</button>
+      </div>
+
    </div>
 </body>
 </html>

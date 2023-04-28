@@ -17,7 +17,7 @@ public class Score {
 
     private int stuNum; // 학번
     private int total; // 총점
-    private double avg; // 평균
+    private double average; // 평균
     private Grade grade; //학점
 
     public Score(ScoreRequestDTO dto) {
@@ -40,7 +40,7 @@ public class Score {
         this.eng = rs.getInt("eng");
         this.math = rs.getInt("math");
         this.total = rs.getInt("total");
-        this.avg = rs.getDouble("average");
+        this.average = rs.getDouble("average");
         this.grade = Grade.valueOf(rs.getString("grade"));
     }
 
@@ -54,13 +54,13 @@ public class Score {
     }
 
     private void calcGrade() {
-        if (avg >= 90) {
+        if (average >= 90) {
             this.grade = Grade.A;
-        } else if (avg >= 80) {
+        } else if (average >= 80) {
             this.grade = Grade.B;
-        } else if (avg >= 70) {
+        } else if (average >= 70) {
             this.grade = Grade.C;
-        } else if (avg >= 60) {
+        } else if (average >= 60) {
             this.grade = Grade.D;
         } else {
             this.grade = Grade.F;
@@ -69,7 +69,7 @@ public class Score {
 
     private void calcTotalAndAvg() {
         this.total = kor + eng + math;
-        this.avg = Math.round((total / 3.0) * 100) / 100.0;
+        this.average = Math.round((total / 3.0) * 100) / 100.0;
     }
 
     public void modifyScore() {

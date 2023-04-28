@@ -3,17 +3,11 @@ package com.spring.mvc.chap04.repository;
 import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreUpdateDTO;
-import com.spring.mvc.chap04.entity.Grade;
 import com.spring.mvc.chap04.entity.Score;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.spring.mvc.chap04.entity.Grade.*;
-import static java.util.Comparator.*;
 
 @Repository("memory") // 스프링 빈 등록 : 객체의 생성의 제어권을 스프링에게 위임(IoC)
 public class ScoreRepositoryImpl implements ScoreRepository{
@@ -45,7 +39,7 @@ public class ScoreRepositoryImpl implements ScoreRepository{
             pstmt.setInt(3,score.getEng());
             pstmt.setInt(4,score.getMath());
             pstmt.setInt(5,score.getTotal());
-            pstmt.setDouble(6,score.getAvg());
+            pstmt.setDouble(6,score.getAverage());
             pstmt.setString(7, score.getGrade().name());
             int result = pstmt.executeUpdate();
 

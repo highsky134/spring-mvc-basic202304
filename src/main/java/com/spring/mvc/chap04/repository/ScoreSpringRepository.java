@@ -34,7 +34,7 @@ public class ScoreSpringRepository implements ScoreRepository {
         String sql = "insert into scores (name, kor, eng, math, total, average, grade) " +
                 "values (?, ?, ?, ?, ?, ? ,?)";
         int result = jdbcTemplate.update(sql, score.getName(), score.getKor(), score.getEng(), score.getMath(),
-                score.getTotal(), score.getAvg(), score.getGrade().name());
+                score.getTotal(), score.getAverage(), score.getGrade().name());
         return result == 1;
     }
 
@@ -56,7 +56,7 @@ public class ScoreSpringRepository implements ScoreRepository {
         Score s = new Score(dto);
         String sql = "update scores set kor=?, eng=?, math=?, total=?, average=?, grade=? where stu_num=?";
 
-        int result = jdbcTemplate.update(sql, s.getKor(), s.getEng(), s.getMath(), s.getTotal(), s.getAvg(), s.getGrade().name(), s.getStuNum());
+        int result = jdbcTemplate.update(sql, s.getKor(), s.getEng(), s.getMath(), s.getTotal(), s.getAverage(), s.getGrade().name(), s.getStuNum());
         return result;
     }
 }

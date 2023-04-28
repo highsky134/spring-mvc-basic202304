@@ -1,7 +1,5 @@
 package com.spring.mvc.chap04.repository;
 
-import com.spring.mvc.chap04.dto.ScoreListResponseDTO;
-import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreUpdateDTO;
 import com.spring.mvc.chap04.entity.Score;
 import org.springframework.stereotype.Repository;
@@ -40,7 +38,7 @@ public class ScoreJdbcRepository implements ScoreRepository{
             pstmt.setInt(3,score.getEng());
             pstmt.setInt(4,score.getMath());
             pstmt.setInt(5,score.getTotal());
-            pstmt.setDouble(6,score.getAvg());
+            pstmt.setDouble(6,score.getAverage());
             pstmt.setString(7, score.getGrade().name());
             int result = pstmt.executeUpdate();
 
