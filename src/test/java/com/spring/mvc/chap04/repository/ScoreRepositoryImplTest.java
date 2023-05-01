@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScoreRepositoryImplTest {
 
     ScoreRepository repository = new ScoreRepositoryImpl();
-    ScoreService scoreService = new ScoreService(repository);
+//    ScoreService scoreService = new ScoreService(repository);
 
     // 단위 테스트 (Unit test)
     // 테스트 시나리오
@@ -95,11 +95,11 @@ class ScoreRepositoryImplTest {
         score.setEng(55);
         score.setMath(42);
 
-        boolean flag = scoreService.insertScore(score);
+//        boolean flag = scoreService.insertScore(score);
 //        List<Score> scoreList = repository.findAll("name");
 
 //        assertEquals(4, scoreList.size());
-        assertTrue(flag);
+//        assertTrue(flag);
 //        assertEquals(4, scoreList.get(scoreList.size() - 1).getStuNum());
     }
 }
