@@ -33,7 +33,27 @@
             <h1 class="main-title">꾸러기 게시판</h1>
             <button class="add-btn">새 글 쓰기</button>
         </div>
+        <div class="top-section">
+            <!-- 검색창 영역 -->
+            <div class="search">
+                <form action="/board/list" method="get">
 
+                    <select class="form-select" name="type" id="search-type">
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                        <option value="tc">제목+내용</option>
+                    </select>
+
+                    <input type="text" class="form-control" name="keyword" value="${s.keyword}">
+
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                </form>
+            </div>
+        </div>
         <div class="card-container">
 
             <c:forEach var="b" items="${bList}">
@@ -52,9 +72,9 @@
                             </div>
                         </div>
                         <div class="card-content">
-                            
+
                             ${b.reduceContent}
-                            
+
                         </div>
                     </section>
                     <div class="card-btn-group">
@@ -75,35 +95,36 @@
         <!-- 페이지 버튼 영역 -->
         <nav aria-label="Page navigation example">
             <ul class="pagination pagination-lg pagination-custom">
-                
+
                 <c:if test="${maker.page.pageNo != 1}">
                     <li class="page-item">
-                        <a class="page-link" href="/board/list?pageNo=1">&lt;&lt;</a>
+                        <a class="page-link" href="/board/list?pageNo=1&type=${s.type}&keyword=${s.keyword}">&lt;&lt;</a>
+
                     </li>
                 </c:if>
                 <c:if test="${maker.prev}">
-                    
-                    <li class="page-item">                        
-                        <a class="page-link" href="/board/list?pageNo=${maker.begin - 1}">prev</a>
-                        
+
+                    <li class="page-item">
+                        <a class="page-link" href="/board/list?pageNo=${maker.begin - 1}&type=${s.type}&keyword=${s.keyword}">prev</a>
+
                     </li>
                 </c:if>
-                
+
 
                 <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
                     <li data-page-num="${i}" class="page-item">
-                        <a class="page-link" href="/board/list?pageNo=${i}">${i}</a>
+                        <a class="page-link" href="/board/list?pageNo=${i}&type=${s.type}&keyword=${s.keyword}">${i}</a>
                     </li>
                 </c:forEach>
-                
+
                 <c:if test="${maker.next}">
                     <li class="page-item">
-                        <a class="page-link" href="/board/list?pageNo=${maker.end + 1}">next</a>
+                        <a class="page-link" href="/board/list?pageNo=${maker.end + 1}&type=${s.type}&keyword=${s.keyword}">next</a>
                     </li>
                 </c:if>
                 <c:if test="${maker.page.pageNo != maker.finalPage}">
                     <li class="page-item">
-                        <a class="page-link" href="/board/list?pageNo=${maker.finalPage}">&gt;&gt;</a>
+                        <a class="page-link" href="/board/list?pageNo=${maker.finalPage}&type=${s.type}&keyword=${s.keyword}">&gt;&gt;</a>
                     </li>
                 </c:if>
             </ul>
@@ -125,14 +146,13 @@
 
 
     <script>
-
         const $cardContainer = document.querySelector('.card-container');
 
         //================= 삭제버튼 스크립트 =================//
         const modal = document.getElementById('modal'); // 모달창 얻기
         const confirmDelete = document.getElementById('confirmDelete'); // 모달 삭제 확인버튼
         const cancelDelete = document.getElementById('cancelDelete'); // 모달 삭제 취소 버튼
-    
+
         $cardContainer.addEventListener('click', e => {
             // 삭제 버튼을 눌렀다면~
             if (e.target.matches('.card-btn-group *')) {
@@ -159,8 +179,9 @@
 
                 // section태그에 붙은 글번호 읽기
                 const bno = e.target.closest('section.card').dataset.bno;
+                console.log(bno + "ㅁㅁㄴㅇㅁㄴㅇ");
                 // 요청 보내기
-                window.location.href= '/board/detail?boardNo=' + bno;
+                window.location.href = '/board/detail?boardNo=' + bno + '&pageNo=${s.pageNo}&type=${s.type}&keyword=${s.keyword}';
             }
         });
 
@@ -188,7 +209,7 @@
             $delBtn.style.opacity = '0';
         }
 
-        
+
 
         $cardContainer.onmouseover = e => {
 
@@ -222,26 +243,36 @@
         //현재 위치한 페이지에 active 스타일 부여하기
         function appendPageActive() {
 
-        // 현재 내가 보고 있는 페이지 넘버
-        const curPageNum = '${maker.page.pageNo}';
-        // console.log("현재페이지: ", curPageNum);
+            // 현재 내가 보고 있는 페이지 넘버
+            const curPageNum = '${maker.page.pageNo}';
+            // console.log("현재페이지: ", curPageNum);
 
-        // 페이지 li태그들을 전부 확인해서 
-        // 현재 위치한 페이지 넘버와 텍스트컨텐츠가 일치하는
-        // li를 찾아서 class active 부여
-        const $ul = document.querySelector('.pagination');
+            // 페이지 li태그들을 전부 확인해서 
+            // 현재 위치한 페이지 넘버와 텍스트컨텐츠가 일치하는
+            // li를 찾아서 class active 부여
+            const $ul = document.querySelector('.pagination');
 
-        for (let $li of [...$ul.children]) {
-            if (curPageNum === $li.dataset.pageNum) {
-                $li.classList.add('active');
-                break;
+            for (let $li of [...$ul.children]) {
+                if (curPageNum === $li.dataset.pageNum) {
+                    $li.classList.add('active');
+                    break;
+                }
             }
+
         }
 
-}
+        function fixSearchOption() {
+            const $select = document.getElementById('search-type');
 
-appendPageActive();
-
+            for (let $opt of [...$select.children]) {
+                if ($opt.value === '${s.type}') {
+                    $opt.setAttribute('selected', 'selected');
+                    break;
+                }
+            }
+        }
+        appendPageActive();
+        fixSearchOption();
     </script>
 
 </body>

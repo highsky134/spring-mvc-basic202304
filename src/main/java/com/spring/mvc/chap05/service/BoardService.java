@@ -4,9 +4,12 @@ import com.spring.mvc.chap05.dto.BoardDetailDTO;
 import com.spring.mvc.chap05.dto.BoardListResponseDTO;
 import com.spring.mvc.chap05.dto.BoardRequestDTO;
 import com.spring.mvc.chap05.dto.page.Page;
+import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.entity.Board;
+import com.spring.mvc.chap05.entity.Reply;
 import com.spring.mvc.chap05.repository.BoardMapper;
 import com.spring.mvc.chap05.repository.BoardRepository;
+import com.spring.mvc.chap05.repository.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +24,10 @@ public class BoardService {
 //    private final BoardRepository boardRepository;
     private final BoardMapper boardRepository;
 
+    private final ReplyMapper replyMapper;
+
     // 보드 전체 보여주기 중간처리
-    public List<BoardListResponseDTO> getList(Page page) {
+    public List<BoardListResponseDTO> getList(Search page) {
 
 
         return boardRepository.findAll(page)
@@ -45,13 +50,22 @@ public class BoardService {
     public BoardDetailDTO findOne(int boardNo) {
         Board board = boardRepository.findOne(boardNo);
         boardRepository.upViewCount(boardNo);
+
         return new BoardDetailDTO(board);
     }
 
-    public int getCount() {
-        return boardRepository.count();
+    public int getCount(Search search) {
+        return boardRepository.count(search);
     }
 
+    public void insertReply(Reply reply) {
+        replyMapper.save(reply);
+    }
+
+    public List<Reply> getReplyList(long boardNo, Page page ) {
+        List<Reply> list = replyMapper.findAll(boardNo, page);
+        return list;
+    }
     // 수정하기
 //    public boolean modify() {
 //
