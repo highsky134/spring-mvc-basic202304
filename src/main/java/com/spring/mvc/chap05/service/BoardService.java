@@ -58,14 +58,14 @@ public class BoardService {
         return boardRepository.count(search);
     }
 
-    public void insertReply(Reply reply) {
-        replyMapper.save(reply);
-    }
-
-    public List<Reply> getReplyList(long boardNo, Page page ) {
-        List<Reply> list = replyMapper.findAll(boardNo, page);
-        return list;
-    }
+//    public void insertReply(Reply reply) {
+//        replyMapper.save(reply);
+//    }
+//
+//    public List<Reply> getReplyList(long boardNo, Page page ) {
+//        List<Reply> list = replyMapper.findAll(boardNo, page);
+//        return list;
+//    }
     // 수정하기
 //    public boolean modify() {
 //

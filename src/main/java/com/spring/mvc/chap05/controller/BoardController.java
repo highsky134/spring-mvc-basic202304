@@ -47,13 +47,13 @@ public class BoardController {
     public String detail(@ModelAttribute("s") Search search, int boardNo, Model model) {
         System.out.println("/board/detail : GET!");
         BoardDetailDTO board = boardService.findOne(boardNo);
-        List<Reply> replyList = boardService.getReplyList(boardNo, search);
+//        List<Reply> replyList = boardService.getReplyList(boardNo, search);
 
 
 //        String time = board.getRegDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 //        model.addAttribute("d", time);
         model.addAttribute("b", board);
-        model.addAttribute("replyList",replyList);
+//        model.addAttribute("replyList",replyList);
 //        model.addAttribute("s", search);
         return "chap05/detail";
     }
@@ -79,13 +79,13 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    @PostMapping("/reply")
-    public String insertReply(Reply reply, Search search, Model model) {
-//        , @ModelAttribute("s") Search search
-        System.out.println("reply = " + reply);
-        boardService.insertReply(reply);
-
-        return String.format("redirect:/board/detail?bno=%d&pageNo=%d&type=%s&keyword=%s",
-                reply.getBoardNo(),search.getPageNo(),search.getType(),search.getKeyword());
-    }
+//    @PostMapping("/reply")
+//    public String insertReply(Reply reply, Search search, Model model) {
+////        , @ModelAttribute("s") Search search
+//        System.out.println("reply = " + reply);
+//        boardService.insertReply(reply);
+//
+//        return String.format("redirect:/board/detail?boardNo=%d&pageNo=%d&type=%s&keyword=%s",
+//                reply.getBoardNo(),search.getPageNo(),search.getType(),search.getKeyword());
+//    }
 }
