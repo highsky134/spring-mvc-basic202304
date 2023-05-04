@@ -14,7 +14,7 @@
 
     <update id="modify">
         UPDATE tbl_reply
-        SET reply_text = #{replyText}, reply_date = #{replyDate}
+        SET reply_text = #{replyText}
         WHERE reply_no = #{replyNo}
     </update>
 

@@ -114,15 +114,15 @@ class ReplyMapperTest {
         assertEquals("세이브 세이브", r.getReplyText());
     }
 
-    @Test
-    void bulkReplyInsert() {
-        for (int i=0; i< 300; i++) {
-            Reply reply = Reply.builder()
-                    .replyWriter("맥도널드~")
-                    .replyText("페이지 댓글 내용" + i)
-                    .boardNo(298L)
-                    .build();
-            replyMapper.save(reply);
-        }
-    }
+//    @Test
+//    void bulkReplyInsert() {
+//        for (int i=0; i< 300; i++) {
+//            Reply reply = Reply.builder()
+//                    .replyWriter("맥도널드~")
+//                    .replyText("페이지 댓글 내용" + i)
+//                    .boardNo(298L)
+//                    .build();
+//            replyMapper.save(reply);
+//        }
+//    }
 }
