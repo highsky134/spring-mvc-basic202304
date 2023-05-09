@@ -38,6 +38,7 @@ public class ReplyController {
         ReplyListResponseDTO replyList = replyService.getReplyList(boardNo, page);
 
         return ResponseEntity.ok().body(replyList);
+
     }
 
     // 댓글 등록 요청
@@ -94,6 +95,7 @@ public class ReplyController {
             // DTO새로 만들고 검증넣고
     ) {
         log.info("/api/v1/replies PUT!");
+        System.out.println("dto = " + dto);
         try {
             ReplyListResponseDTO responseDTO = replyService.modify(dto);
             return ResponseEntity.ok().body(responseDTO);
