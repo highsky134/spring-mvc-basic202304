@@ -11,5 +11,6 @@ import java.time.LocalDateTime;
 public class BoardRequestDTO {
     private String title; // 제목
     private String content; // 내용
+    private String account; // 작성자
 
 }

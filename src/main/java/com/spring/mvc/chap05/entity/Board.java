@@ -26,6 +26,8 @@ public class Board {
     private String content; // 내용
     private int viewCount; // 조회수
     private LocalDateTime regDateTime; // 작성일자 시간
+    private String account; // 작성자 계정명
+    private String writer; // 작성자 이름
 
     public Board(BoardRequestDTO dto) {
         this.title = dto.getTitle();

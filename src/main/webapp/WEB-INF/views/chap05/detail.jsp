@@ -134,18 +134,12 @@
       <div class="view">
          <i class="fas fa-eye"></i>
          <span class="view-count">조회수: ${b.viewCount}</span>
+         <span >작성자 : ${b.writer}</span>
       </div>
       <div class="post-content">
          ${b.content}
       </div>
-      <div class="comment-form">
-         <form action="/board/reply" method="post">
-            <input id="bnoT" type="hidden" name="boardNo" value="${b.boardNo}">
-            <input type="text" name="replyWriter" id="writer" placeholder="작성자"> <br>
-            <textarea name="replyText" id="content"></textarea> <br>
-            <button type="submit">등록</button>
-         </form>
-      </div>
+      
       <div>
          <button type="button"
             onclick="window.location.href = '/board/list?pageNo=${s.pageNo}&type=${s.type}&keyword=${s.keyword}'">뒤로가기</button>

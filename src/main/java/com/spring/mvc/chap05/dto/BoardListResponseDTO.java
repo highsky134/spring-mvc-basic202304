@@ -15,6 +15,7 @@ public class BoardListResponseDTO {
     private final String reduceContent; // 내용
     private final int viewCount; // 조회수
     private final String regDateTime; // 작성일자 시간
+    private final String account;
 
     public BoardListResponseDTO(Board b){
         this.boardNo = b.getBoardNo();
@@ -22,6 +23,7 @@ public class BoardListResponseDTO {
         this.reduceContent = reduceContent(b.getContent());
         this.viewCount = b.getViewCount();
         this.regDateTime = strDateTime(b.getRegDateTime());
+        this.account = b.getAccount();
     }
 
 //    public BoardListResponseDTO(int boardNo,Board b){

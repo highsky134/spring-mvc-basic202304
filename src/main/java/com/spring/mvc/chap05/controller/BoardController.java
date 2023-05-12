@@ -8,6 +8,7 @@ import com.spring.mvc.chap05.dto.page.Search;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.entity.Reply;
 import com.spring.mvc.chap05.service.BoardService;
+import com.spring.mvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -34,12 +36,12 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Search page, Model model, HttpServletRequest request) {
 
-        boolean flag = false;
-
-        // 세션을 확인
-        Object login = request.getSession().getAttribute("login");
-
-        if (login != null) flag = true;
+//        boolean flag = false;
+//
+//        // 세션을 확인
+//        Object login = request.getSession().getAttribute("login");
+//
+//        if (login != null) flag = true;
 
 
 //        // 쿠키를 확인
@@ -51,7 +53,7 @@ public class BoardController {
 //            }
 //        }
 
-        if (!flag) return "redirect:/members/sign-in";
+//        if (!flag) return "redirect:/members/sign-in";
 
         log.info("page : {}", page);
 
@@ -71,7 +73,6 @@ public class BoardController {
         BoardDetailDTO board = boardService.findOne(boardNo);
 //        List<Reply> replyList = boardService.getReplyList(boardNo, search);
 
-
 //        String time = board.getRegDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 //        model.addAttribute("d", time);
         model.addAttribute("b", board);
@@ -81,14 +82,17 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String write() {
+    public String write(HttpSession session) {
+        if (!LoginUtil.isLogin(session)) {
+            return "redirect:/members/sign-in";
+        }
         return "chap05/write";
     }
 
     // 게시물 등록하기
     @PostMapping("/insert")
-    public String insert(BoardRequestDTO dto) {
-        boardService.write(dto);
+    public String insert(BoardRequestDTO dto, HttpSession session) {
+        boardService.write(dto, session);
         return "redirect:/board/list";
     }
 
