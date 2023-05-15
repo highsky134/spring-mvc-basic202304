@@ -41,7 +41,7 @@ public class BoardService {
     // 게시글 등록하기
     public boolean write(BoardRequestDTO dto, HttpSession session){
         Board board = new Board(dto);
-        board.setAccount(LoginUtil.getCurrentLoginMemeberAccount(session));
+        board.setAccount(LoginUtil.getCurrentLoginMemberAccount(session));
         return boardRepository.save(board);
     }
 

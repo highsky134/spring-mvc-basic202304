@@ -68,7 +68,7 @@
 
                         </div>
                     </section>
-                    <c:if test="${login.account == b.account}">
+                    <c:if test="${login.account == b.account || login.auth == 'ADMIN'}">
                         <div class="card-btn-group">
                             <button class="del-btn" data-href="/board/delete?boardNo=${b.boardNo}">
                                 <i class="fas fa-times"></i>
