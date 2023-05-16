@@ -28,4 +28,5 @@ public class Member {
     private Auth auth;
     private LocalDateTime regDate;
     private LocalDateTime limitTime;
+    private String profileImage;
 }
