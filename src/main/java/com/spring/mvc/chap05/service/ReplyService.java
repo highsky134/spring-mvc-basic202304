@@ -6,13 +6,17 @@ import com.spring.mvc.chap05.dto.ReplyPutRequestDTO;
 import com.spring.mvc.chap05.dto.page.Page;
 import com.spring.mvc.chap05.dto.page.PageMaker;
 import com.spring.mvc.chap05.dto.ReplyDetailResponseDTO;
+import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
 import com.spring.mvc.chap05.entity.Reply;
 import com.spring.mvc.chap05.repository.ReplyMapper;
+import com.spring.mvc.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +33,7 @@ public class ReplyService {
     public ReplyListResponseDTO getReplyList(long boardNo, Page page ) {
 
         List<ReplyDetailResponseDTO> replies = replyMapper.findAll(boardNo, page).stream()
-                .map(reply -> new ReplyDetailResponseDTO(reply))
+                .map(ReplyDetailResponseDTO::new)
                 .collect(Collectors.toList());
 
         int count = replyMapper.count(boardNo);
@@ -41,10 +45,17 @@ public class ReplyService {
     }
 
     // 댓글 등록 서비스
-    public ReplyListResponseDTO register(final ReplyPostRequestDTO dto) throws SQLException {
+    public ReplyListResponseDTO register(
+            final ReplyPostRequestDTO dto,
+            HttpSession session
+    ) throws SQLException {
         log.debug("register service execute!!");
         // dto를 entity로 변환
         Reply reply = dto.toEntity();
+        LoginUserResponseDTO member = (LoginUserResponseDTO) session.getAttribute(LoginUtil.LOGIN_KEY);
+        reply.setAccount(member.getAccount());
+        reply.setReplyWriter(member.getNickName());
+
         boolean flag = replyMapper.save(reply);
         if (!flag) {
             log.warn("reply registered fail!");

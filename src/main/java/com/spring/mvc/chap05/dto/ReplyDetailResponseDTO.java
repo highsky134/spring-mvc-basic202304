@@ -16,8 +16,10 @@ public class ReplyDetailResponseDTO {
     private long rno;
     private String text;
     private String writer;
+    private String account;
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH:mm")
     private LocalDateTime regDate;
+    private String profile;
 
     // 엔터티를 DTO로 변환하는 생성자
     public ReplyDetailResponseDTO(Reply reply) {
@@ -25,5 +27,6 @@ public class ReplyDetailResponseDTO {
         this.text = reply.getReplyText();
         this.writer = reply.getReplyWriter();
         this.regDate = reply.getReplyDate();
+        this.account = reply.getAccount();
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -47,8 +48,13 @@ public class MemberController {
         log.info("/members/sign-up POST ! - {}", dto);
         log.info("프로필 사진 이름 : {}", dto.getProfileImage().getOriginalFilename());
 
+        MultipartFile profileImage = dto.getProfileImage();
+
+        String savePath = null;
         // 실제 로컬 스토리지에 파일을 업로드 하는 로직
-        String savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
+        if (!profileImage.isEmpty()) {
+            savePath = FileUtil.uploadFile(profileImage, rootPath);
+        }
 
         boolean flag = memberService.join(dto, savePath);
 
