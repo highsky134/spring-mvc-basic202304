@@ -552,7 +552,7 @@
             }).then(result => {               
                renderReplyList(result);
             })
-         }
+         };
       }
 
       // ========메인 실행부 ====== //
