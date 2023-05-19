@@ -108,39 +108,40 @@
 
       /* 페이지 액티브 기능 */
       .pagination .page-item.p-active a {
-            background: #333 !important;
-            color: #fff !important;
-            cursor: default;
-            pointer-events: none;
-        }
+         background: #333 !important;
+         color: #fff !important;
+         cursor: default;
+         pointer-events: none;
+      }
 
-        .pagination .page-item:hover a {
-            background: #888 !important;
-            color: #fff !important;
-        }
-      
+      .pagination .page-item:hover a {
+         background: #888 !important;
+         color: #fff !important;
+      }
+
       /* 댓글 프로필 */
       .profile-box {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 10px auto;
-        }
-        .profile-box img {
-            width: 100%;
-        }
+         width: 70px;
+         height: 70px;
+         border-radius: 50%;
+         overflow: hidden;
+         margin: 10px auto;
+      }
 
-        .reply-profile {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
+      .profile-box img {
+         width: 100%;
+      }
 
-        }
+      .reply-profile {
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         margin-right: 10px;
+
+      }
    </style>
 
-   
+
 </head>
 
 <body>
@@ -154,12 +155,12 @@
       <div class="view">
          <i class="fas fa-eye"></i>
          <span class="view-count">조회수: ${b.viewCount}</span>
-         <span >작성자 : ${b.writer}</span>
+         <span>작성자 : ${b.writer}</span>
       </div>
       <div class="post-content">
          ${b.content}
       </div>
-      
+
       <div>
          <button type="button"
             onclick="window.location.href = '/board/list?pageNo=${s.pageNo}&type=${s.type}&keyword=${s.keyword}'">뒤로가기</button>
@@ -190,42 +191,40 @@
                <div class="card-body">
                   <c:if test="${empty login}">
                      <a href="/members/sign-in">댓글은 로그인 후 작성 가능합니다.</a>
-                 </c:if>
+                  </c:if>
 
-                 <c:if test="${not empty login}">
+                  <c:if test="${not empty login}">
 
                      <div class="row">
-                         <div class="col-md-9">
-                             <div class="form-group">
-                                 <label for="newReplyText" hidden>댓글 내용</label>
-                                 <textarea rows="3" id="newReplyText" name="replyText" class="form-control"
-                                     placeholder="댓글을 입력해주세요."></textarea>
-                             </div>
-                         </div>
-                         <div class="col-md-3">
-                             <div class="form-group">
+                        <div class="col-md-9">
+                           <div class="form-group">
+                              <label for="newReplyText" hidden>댓글 내용</label>
+                              <textarea rows="3" id="newReplyText" name="replyText" class="form-control"
+                                 placeholder="댓글을 입력해주세요."></textarea>
+                           </div>
+                        </div>
+                        <div class="col-md-3">
+                           <div class="form-group">
                               <div class="profile-box">
                                  <c:choose>
                                     <c:when test="${login.profile != null}">
-                                       <img src="/local${login.profile}" alt="프사">
+                                       <img src="${login.profile}" alt="프사">
                                     </c:when>
                                     <c:otherwise>
                                        <img src="/assets/img/anonymous.jpg" alt="프사">
                                     </c:otherwise>
                                  </c:choose>
                               </div>
-                                 <label for="newReplyWriter" hidden>댓글 작성자</label>
-                                 <input id="newReplyWriter" name="replyWriter" type="text"
-                                     class="form-control" placeholder="작성자 이름"
-                                     style="margin-bottom: 6px;" value="${login.nickName}" readonly>
-                                 <button id="replyAddBtn" type="button"
-                                     class="btn btn-dark form-control">등록</button>
-                             </div>
-                         </div>
+                              <label for="newReplyWriter" hidden>댓글 작성자</label>
+                              <input id="newReplyWriter" name="replyWriter" type="text" class="form-control"
+                                 placeholder="작성자 이름" style="margin-bottom: 6px;" value="${login.nickName}" readonly>
+                              <button id="replyAddBtn" type="button" class="btn btn-dark form-control">등록</button>
+                           </div>
+                        </div>
                      </div>
-                 </c:if>
-             </div>
-         </div> <!-- end reply write -->
+                  </c:if>
+               </div>
+            </div> <!-- end reply write -->
 
             <!--댓글 내용 영역-->
             <div class="card">
@@ -253,7 +252,7 @@
          </div>
       </div> <!-- end replies row -->
 
-      
+
 
 
       <!-- 댓글 수정 모달 -->
@@ -303,44 +302,55 @@
       const auth = '${login.auth}';
 
       // 페이지 렌더링 함수
-      function renderPage({begin, end, prev, next, page, finalPage}) {    
-            
-            let tag = "";
-            //이전 버튼 만들기
-            if (prev) {
-                tag += "<li class='page-item'><a class='page-link page-active' href='" + (begin - 1) +
-                    "'>이전</a></li>";
-            }
-            //페이지 번호 리스트 만들기
-            for (let i = begin; i <= end; i++) {
-                let active = '';
-                if (page.pageNo === i) {
-                    active = 'p-active';
-                }
+      function renderPage({
+         begin,
+         end,
+         prev,
+         next,
+         page,
+         finalPage
+      }) {
 
-                tag += "<li class='page-item " + active + "'><a class='page-link page-custom' href='" + i +
-                    "'>" + i + "</a></li>";
-            }
-            //다음 버튼 만들기
-            if (next) {
-                tag += "<li class='page-item'><a class='page-link page-active' href='" + (end + 1) +
-                    "'>다음</a></li>";
+         let tag = "";
+         //이전 버튼 만들기
+         if (prev) {
+            tag += "<li class='page-item'><a class='page-link page-active' href='" + (begin - 1) +
+               "'>이전</a></li>";
+         }
+         //페이지 번호 리스트 만들기
+         for (let i = begin; i <= end; i++) {
+            let active = '';
+            if (page.pageNo === i) {
+               active = 'p-active';
             }
 
-            // 페이지태그 렌더링
-            const $pageUl = document.querySelector('.pagination');
-            $pageUl.innerHTML = tag;
+            tag += "<li class='page-item " + active + "'><a class='page-link page-custom' href='" + i +
+               "'>" + i + "</a></li>";
+         }
+         //다음 버튼 만들기
+         if (next) {
+            tag += "<li class='page-item'><a class='page-link page-active' href='" + (end + 1) +
+               "'>다음</a></li>";
+         }
 
-            // ul에 마지막페이지 번호 저장.
-            $pageUl.dataset.fp = finalPage;
+         // 페이지태그 렌더링
+         const $pageUl = document.querySelector('.pagination');
+         $pageUl.innerHTML = tag;
+
+         // ul에 마지막페이지 번호 저장.
+         $pageUl.dataset.fp = finalPage;
 
       }
 
       // 댓글 화면 출력
-      function renderReplyList({count, pageInfo, replies}) {
+      function renderReplyList({
+         count,
+         pageInfo,
+         replies
+      }) {
          document.getElementById('replyCnt').textContent = count;
          // 총 댓글 수 렌더링
-         
+
          // 댓글 내용 렌더링
          // 각 댓글 하나의 태그
          let tag = '';
@@ -349,34 +359,42 @@
             tag += "<div id='replyContent' class='card-body'>댓글이 아직 없습니다! ㅠㅠ</div>";
 
          } else {
-            
-            for (let rep of replies) {
-               const {rno, writer, text, regDate, account: replyWriter, profile} = rep;
-               tag += "<div id='replyContent' class='card-body' data-replyId='" + rno + "'>" +
-                     "    <div class='row user-block'>" +
-                     "       <span class='col-md-8'>" +
-                              (profile 
-                                 ? `<img class='reply-profile' src='/local\${profile}' alt='profile'>` 
-                                 : `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='profile'>`) +
-                     "         <b>" + writer + "</b>" +
-                     "       </span>" +
-                     "       <span class='offset-md-6 col-md-3 text-right'><b>" + regDate +
-                     "</b></span>" +
-                     "    </div><br>" +
-                     "    <div class='row'>" +
-                     "       <div class='col-md-6'>" + text + "</div>" +
-                     "       <div class='offset-md-2 col-md-4 text-right'>";
 
-               if (currentAccount === replyWriter || auth === 'ADMIN') {1
-                     tag +=
-                        "         <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;" +
-                        "         <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>";
+            for (let rep of replies) {
+               const {
+                  rno,
+                  writer,
+                  text,
+                  regDate,
+                  account: replyWriter,
+                  profile
+               } = rep;
+               tag += "<div id='replyContent' class='card-body' data-replyId='" + rno + "'>" +
+                  "    <div class='row user-block'>" +
+                  "       <span class='col-md-8'>" +
+                  (profile ?
+                     `<img class='reply-profile' src='\${profile}' alt='profile'>` :
+                     `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='profile'>`) +
+                  "         <b>" + writer + "</b>" +
+                  "       </span>" +
+                  "       <span class='offset-md-6 col-md-3 text-right'><b>" + regDate +
+                  "</b></span>" +
+                  "    </div><br>" +
+                  "    <div class='row'>" +
+                  "       <div class='col-md-6'>" + text + "</div>" +
+                  "       <div class='offset-md-2 col-md-4 text-right'>";
+
+               if (currentAccount === replyWriter || auth === 'ADMIN') {
+                  1
+                  tag +=
+                     "         <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;" +
+                     "         <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>";
                }
                tag += "       </div>" +
-                     "    </div>" +
-                     " </div>";
+                  "    </div>" +
+                  " </div>";
             }
-            
+
             // 생성된 댓글 tag 렌더링
             document.getElementById('replyData').innerHTML = tag;
 
@@ -387,20 +405,20 @@
 
       // 페이지 클릭 이벤트 핸들러
       function makePageButtonClickEvent() {
-            // 페이지 버튼 클릭이벤트 처리
-            const $pageUl = document.querySelector('.pagination');
-            $pageUl.onclick = e => {
-                if (!e.target.matches('.page-item a')) return;
+         // 페이지 버튼 클릭이벤트 처리
+         const $pageUl = document.querySelector('.pagination');
+         $pageUl.onclick = e => {
+            if (!e.target.matches('.page-item a')) return;
 
-                e.preventDefault();
-                // 누른 페이지 번호 가져오기
-                const pageNum = e.target.getAttribute('href');
-                // console.log(pageNum);
+            e.preventDefault();
+            // 누른 페이지 번호 가져오기
+            const pageNum = e.target.getAttribute('href');
+            // console.log(pageNum);
 
-                // 페이지 번호에 맞는 목록 비동기 요청
-                getReplyList(pageNum);
-            };
-        }
+            // 페이지 번호에 맞는 목록 비동기 요청
+            getReplyList(pageNum);
+         };
+      }
 
       // 댓글 목록 불러오기 함수
       function getReplyList(page = 1) {
@@ -415,7 +433,7 @@
 
       // 댓글 등록 처리 이벤트 함수
       function makeReplyRegisterClickEvent() {
-         
+
          const $regBtn = document.getElementById('replyAddBtn');
          $regBtn.onclick = e => {
 
@@ -426,12 +444,10 @@
             if ($rt.value.trim() === '') {
                alert('댓글 내용은 필수 입니다!');
                return;
-            }
-            else if ($rw.value.trim() === '') {
+            } else if ($rw.value.trim() === '') {
                alert('댓글 작성자 이름은 필수 입니다!');
                return;
-            }
-            else if ($rw.value.trim().length < 2 || $rw.value.trim().length > 8) {
+            } else if ($rw.value.trim().length < 2 || $rw.value.trim().length > 8) {
                alert('댓글 작성자 이름은 2~8자 사이로 작성하세요!');
             }
 
@@ -446,13 +462,13 @@
             // # GET방식을 제외하고 필요한 객체
             const requestInfo = {
                method: 'POST',
-               headers: {  
+               headers: {
                   'content-type': 'application/json'
                },
                body: JSON.stringify(payload)
             };
 
-            
+
             // # 서버에 POST요청 보내기
             fetch(URL, requestInfo)
                .then(res => {
@@ -462,17 +478,16 @@
                      // 입력창 비우기
                      $rt.value = '';
                      // $rw.value = '';
-                     
+
 
                      // 마지막 페이지번호
                      const lastPageNo = document.querySelector('.pagination').dataset.fp;
                      getReplyList(lastPageNo);
-                     
+
                   } else {
                      alert('댓글 등록에 실패함!');
                   }
-               })
-            ;
+               });
          }
       }
 
@@ -485,13 +500,13 @@
 
             // 삭제할 댓글의 PK값 읽기
             const rno = e.target.closest('#replyContent').dataset.replyid;
-            
-            if (e.target.matches('#replyDelBtn')){
+
+            if (e.target.matches('#replyDelBtn')) {
                console.log('삭제 버튼 클릭');
 
                if (!confirm('정말 삭제합니까?')) return;
 
-               
+
 
                // 서버에 삭제 비동기 요청
                fetch(URL + '/' + rno, {
@@ -525,7 +540,7 @@
       // 서버에 수정 비동기 요청 처리 함수
       function replyModifyClickEvent() {
          const $modBtn = document.getElementById('replyModBtn');
-         
+
          $modBtn.onclick = e => {
 
             const payload = {
@@ -537,9 +552,9 @@
             fetch(URL, {
                method: 'PUT',
                headers: {
-                  'content-type': 'application/json',                  
+                  'content-type': 'application/json',
                },
-               body: JSON.stringify(payload) 
+               body: JSON.stringify(payload)
             }).then(res => {
                if (res.status === 200) {
                   alert('댓글이 정상 수정되었습니다.');
@@ -549,7 +564,7 @@
                } else {
                   alert('댓글 수정 실패');
                }
-            }).then(result => {               
+            }).then(result => {
                renderReplyList(result);
             })
          };
@@ -572,7 +587,6 @@
          // 수정 이벤트 등록
          replyModifyClickEvent();
       })();
-
    </script>
 </body>
 

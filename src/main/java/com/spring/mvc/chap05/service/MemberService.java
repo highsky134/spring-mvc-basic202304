@@ -4,6 +4,7 @@ import com.spring.mvc.chap05.dto.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.SignupRequestDTO;
 import com.spring.mvc.chap05.dto.request.AutoLoginDTO;
 import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
+import com.spring.mvc.chap05.entity.LoginMethod;
 import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.repository.MemberMapper;
 import com.spring.mvc.util.LoginUtil;
@@ -114,6 +115,7 @@ public class MemberService {
                 .email(member.getEmail())
                 .auth(member.getAuth().toString())
                 .profile(member.getProfileImage())
+                .loginMethod(LoginMethod.COMMON)
                 .build();
         // 그 정보를 세션에 저장
         session.setAttribute(LoginUtil.LOGIN_KEY, dto);
